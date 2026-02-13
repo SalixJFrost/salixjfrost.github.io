@@ -1,280 +1,778 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SalixWen - Blog</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalixWen - Blog</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css">
 
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
 
-<style>
-:root{
-  --bg:#f5f5f3;
-  --text:#111;
-  --card:rgba(255,255,255,.7);
-  --border:rgba(0,0,0,.08);
-}
-body.dark{
-  --bg:#0e0e0e;
-  --text:#f2f2f2;
-  --card:rgba(20,20,20,.7);
-  --border:rgba(255,255,255,.08);
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  font-family:'Inter',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  transition:.6s cubic-bezier(.22,1,.36,1);
-  overflow:hidden;
-}
+    <style>
+        :root {
+            /* Light theme - Enhanced */
+            --bg: linear-gradient(135deg, #f5f7fa 0%, #f0f2f5 100%);
+            --text: #1a1a1a;
+            --text-secondary: #666;
+            --card: rgba(255, 255, 255, 0.85);
+            --card-hover: rgba(255, 255, 255, 0.95);
+            --border: rgba(0, 0, 0, 0.06);
+            --accent: #007aff;
+            --accent-hover: #0051d5;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
+            --glow: rgba(0, 122, 255, 0.15);
+        }
 
-/* Apple级丝滑滚动容器 */
-.scroll-container{
-  position:fixed;
-  width:100%;
-  will-change:transform;
-}
+        body.dark {
+            /* Dark theme - Enhanced */
+            --bg: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            --text: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --card: rgba(25, 25, 25, 0.85);
+            --card-hover: rgba(35, 35, 35, 0.95);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #0a84ff;
+            --accent-hover: #409cff;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4);
+            --glow: rgba(10, 132, 255, 0.2);
+        }
 
-/* 导航 */
-nav{
-  display:flex;
-  justify-content:space-between;
-  padding:30px 60px;
-  position:fixed;
-  width:100%;
-  backdrop-filter:blur(20px);
-  background:var(--card);
-  border-bottom:1px solid var(--border);
-  z-index:1000;
-}
-nav a{
-  text-decoration:none;
-  color:var(--text);
-  margin-left:40px;
-  opacity:.8;
-  font-weight:500;
-}
-nav a:hover{opacity:1;}
-.toggle{
-  cursor:pointer;
-  padding:8px 14px;
-  border-radius:30px;
-  border:1px solid var(--border);
-}
+        /* Performance optimizations */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* 页面 */
-.page{
-  min-height:100vh;
-  padding:180px 80px 120px;
-  opacity:0;
-  transform:translateY(40px);
-  transition:.8s cubic-bezier(.22,1,.36,1);
-}
-.page.active{
-  opacity:1;
-  transform:translateY(0);
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-/* Hero */
-.hero h1{font-size:80px;letter-spacing:-2px;}
-.hero p{font-size:22px;opacity:.6;margin-top:20px;}
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-/* 卡片 */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:40px;
-  margin-top:60px;
-}
-.card{
-  padding:40px;
-  border-radius:30px;
-  backdrop-filter:blur(20px);
-  background:var(--card);
-  border:1px solid var(--border);
-  cursor:pointer;
-  transition:.7s cubic-bezier(.22,1,.36,1);
-}
-.card:hover{
-  transform:translateY(-12px) scale(1.02);
-  box-shadow:0 30px 80px rgba(0,0,0,.15);
-}
+        /* Smooth scroll container */
+        .scroll-container {
+            position: fixed;
+            width: 100%;
+            will-change: transform;
+            transform: translateZ(0);
+            /* GPU acceleration */
+        }
 
-/* 搜索 */
-.search{
-  margin-top:40px;
-  padding:12px 20px;
-  border-radius:30px;
-  border:1px solid var(--border);
-  width:300px;
-  background:var(--card);
-  color:var(--text);
-}
+        /* Navigation - Enhanced */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            position: fixed;
+            width: 100%;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-/* 标签 */
-.tags{margin-top:20px;}
-.tag{
-  display:inline-block;
-  padding:6px 12px;
-  margin:6px;
-  border-radius:20px;
-  border:1px solid var(--border);
-  cursor:pointer;
-  font-size:12px;
-}
+        nav .logo {
+            font-weight: 600;
+            font-size: 18px;
+            letter-spacing: -0.5px;
+        }
 
-/* 文章页 */
-.article{
-  max-width:800px;
-  line-height:1.8;
-}
-.article img{max-width:100%;border-radius:10px;margin:10px 0;}
-.back{margin-bottom:30px;cursor:pointer;opacity:.6;}
+        nav .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-/* 代码高亮 */
-pre{border-radius:12px;overflow-x:auto;margin:20px 0;}
-code{font-size:14px;}
-</style>
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 8px;
+            opacity: 0.7;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        nav a:hover {
+            opacity: 1;
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        body.dark nav a:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 16px;
+            right: 16px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .toggle {
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: transparent;
+            color: var(--text);
+        }
+
+        .toggle:hover {
+            background: rgba(0, 0, 0, 0.03);
+            transform: scale(1.05);
+        }
+
+        body.dark .toggle:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Pages - Enhanced transitions */
+        .page {
+            min-height: 100vh;
+            padding: 140px 80px 120px;
+            opacity: 0;
+            transform: translateY(30px) scale(0.98);
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .page.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        /* Hero - Enhanced typography */
+        .hero {
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s backwards;
+        }
+
+        .hero h1 {
+            font-size: 80px;
+            letter-spacing: -3px;
+            font-weight: 700;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--text) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 22px;
+            color: var(--text-secondary);
+            margin-top: 24px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        /* Cards - Premium effects */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .card {
+            padding: 32px;
+            border-radius: 20px;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            background: var(--card);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+            /* GPU acceleration */
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--glow) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: var(--shadow-lg);
+            background: var(--card-hover);
+            border-color: var(--accent);
+        }
+
+        .card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        /* Search - Enhanced */
+        .search {
+            margin-top: 32px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            width: 100%;
+            max-width: 400px;
+            background: var(--card);
+            color: var(--text);
+            font-size: 15px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+        }
+
+        .search:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--glow);
+        }
+
+        .search::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        /* Tags - Enhanced */
+        .tags {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            padding: 8px 16px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--card);
+        }
+
+        .tag:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .tag.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        /* Article page - Enhanced */
+        .article {
+            max-width: 800px;
+            line-height: 1.8;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .article h1 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            margin-bottom: 32px;
+        }
+
+        .article h2 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-top: 48px;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .article p {
+            color: var(--text-secondary);
+            font-size: 17px;
+            margin: 16px 0;
+        }
+
+        .article img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin: 24px 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 32px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .back:hover {
+            color: var(--accent);
+            background: rgba(0, 0, 0, 0.03);
+            transform: translateX(-4px);
+        }
+
+        body.dark .back:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Code blocks - Enhanced */
+        pre {
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 24px 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        code {
+            font-size: 14px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 16px 24px;
+            }
+
+            .page {
+                padding: 120px 24px 80px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .article h1 {
+                font-size: 36px;
+            }
+        }
+
+        /* Loading state */
+        .loading {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+    </style>
 </head>
 
 <body>
 
-<nav>
-<div><strong>SalixWen</strong></div>
-<div>
-<a href="/" data-link>Home</a>
-<a href="/projects" data-link>Blog</a>
-<a href="/about" data-link>About</a>
-<span class="toggle" onclick="toggleDark()">Dark</span>
-</div>
-</nav>
+    <nav>
+        <div class="logo">SalixWen</div>
+        <div class="nav-links">
+            <a href="/" data-link>Home</a>
+            <a href="/projects" data-link>Blog</a>
+            <a href="/about" data-link>About</a>
+            <span class="toggle" onclick="toggleDark()">🌓</span>
+        </div>
+    </nav>
 
-<div class="scroll-container" id="scrollContainer">
+    <div class="scroll-container" id="scrollContainer">
 
-<div id="home" class="page active">
-<div class="hero">
-<h1>Clarity.<br>Precision.<br>Experience.</h1>
-<p>Minimal · Development · Security</p>
-</div>
-</div>
+        <div id="home" class="page active">
+            <div class="hero">
+                <h1>Clarity.<br>Precision.<br>Experience.</h1>
+                <p>Minimal · Development · Security</p>
+            </div>
+        </div>
 
-<div id="projects" class="page">
-<h1>Blog</h1>
-<input class="search" placeholder="Search..." oninput="searchPosts(this.value)">
-<div class="tags" id="tagContainer"></div>
-<div class="grid" id="postList"></div>
-</div>
+        <div id="projects" class="page">
+            <h1>Blog</h1>
+            <input class="search" placeholder="Search articles..." oninput="searchPosts(this.value)">
+            <div class="tags" id="tagContainer"></div>
+            <div class="grid" id="postList"></div>
+        </div>
 
-<div id="about" class="page">
-<h1>About</h1>
-<p style="margin-top:30px;max-width:600px;opacity:.6;">
-专注系统架构与高质量软件开发。
-</p>
-</div>
+        <div id="about" class="page">
+            <h1>About</h1>
+            <p style="margin-top:30px;max-width:600px;color:var(--text-secondary);">
+                专注系统架构与高质量软件开发。追求极致的用户体验与代码质量。
+            </p>
+        </div>
 
-<div id="articlePage" class="page">
-<div class="article">
-<div class="back" onclick="go('/projects')">← 返回</div>
-<h1 id="articleTitle"></h1>
-<div id="articleContent" style="margin-top:30px;"></div>
-</div>
-</div>
+        <div id="articlePage" class="page">
+            <div class="article">
+                <div class="back" onclick="go('/projects')">← 返回</div>
+                <h1 id="articleTitle"></h1>
+                <div id="articleContent" style="margin-top:30px;"></div>
+            </div>
+        </div>
 
-</div>
+    </div>
 
-<script>
-/* Apple级惯性滚动 */
-let scrollY=0,targetY=0;
-const container=document.getElementById("scrollContainer");
-document.body.style.height=container.getBoundingClientRect().height+"px";
-window.addEventListener("scroll",()=>targetY=window.scrollY);
-function smoothScroll(){
-scrollY+=(targetY-scrollY)*0.08;
-container.style.transform=`translateY(-${scrollY}px)`;
-requestAnimationFrame(smoothScroll);
-}
-smoothScroll();
+    <script>
+        /* Optimized smooth scrolling with RAF */
+        let scrollY = 0, targetY = 0, animationId = null;
+        const container = document.getElementById("scrollContainer");
 
-/* 暗黑 */
-function toggleDark(){
-document.body.classList.toggle("dark");
-localStorage.setItem("theme",
-document.body.classList.contains("dark")?"dark":"light");
-}
-if(localStorage.getItem("theme")==="dark"){
-document.body.classList.add("dark");
-}
+        function updateBodyHeight() {
+            document.body.style.height = container.getBoundingClientRect().height + "px";
+        }
 
-/* SPA 路由 */
-function go(path){
-history.pushState(null,null,path);
-router(path);
-}
-function router(path){
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-if(path==="/about"){document.getElementById("about").classList.add("active");}
-else if(path==="/projects"){document.getElementById("projects").classList.add("active");}
-else if(path.startsWith("/post")){document.getElementById("articlePage").classList.add("active");}
-else{document.getElementById("home").classList.add("active");}
-window.scrollTo(0,0);
-}
-document.querySelectorAll("[data-link]").forEach(link=>{
-link.addEventListener("click",e=>{
-e.preventDefault();
-go(link.getAttribute("href"));
-});
-});
-window.addEventListener("popstate",()=>router(location.pathname));
+        window.addEventListener("scroll", () => {
+            targetY = window.scrollY;
+        });
 
-/* 博客数据 */
-const posts=[
-{title:"WebGL 实践",tags:["WebGL","Graphics"],content:`# WebGL 实践\n使用 GPU 构建高性能动画系统。\n\n## 优势\n- 性能极高\n- 可扩展`},
-{title:"前端架构设计",tags:["Frontend","Architecture"],content:`# 架构设计\n构建可扩展系统。\n\`\`\`js\nconsole.log("Hello");\n\`\`\``},
-{title:"自建书签导航系统",tags:["Tools","Frontend"],content:`# 书签导航\n创建个人收藏站，实现快速访问和管理。`}
-];
+        function smoothScroll() {
+            const diff = targetY - scrollY;
 
-/* 渲染文章列表 */
-const postList=document.getElementById("postList");
-const tagContainer=document.getElementById("tagContainer");
-function renderPosts(filterTag=null,search=""){
-postList.innerHTML="";
-posts
-.filter(p=>(!filterTag||p.tags.includes(filterTag)) &&
-p.title.toLowerCase().includes(search.toLowerCase()))
-.forEach((p,i)=>{
-const div=document.createElement("div");
-div.className="card";
-div.innerHTML=`<h3>${p.title}</h3><p style="opacity:.6;margin-top:10px">${p.tags.join(", ")}</p>`;
-div.onclick=()=>{
-document.getElementById("articleTitle").innerText=p.title;
-document.getElementById("articleContent").innerHTML=marked.parse(p.content);
-go("/post/"+i);
-Prism.highlightAll();
+            // Adaptive damping for smoother feel
+            const damping = Math.abs(diff) > 100 ? 0.12 : 0.08;
+            scrollY += diff * damping;
+
+            // Stop animation when close enough
+            if (Math.abs(diff) < 0.5) {
+                scrollY = targetY;
+            }
+
+            container.style.transform = `translate3d(0, -${scrollY}px, 0)`;
+            animationId = requestAnimationFrame(smoothScroll);
+        }
+
+        smoothScroll();
+        updateBodyHeight();
+
+        /* Enhanced dark mode with transition */
+        function toggleDark() {
+            document.body.style.transition = 'none';
+            document.body.classList.toggle("dark");
+
+            requestAnimationFrame(() => {
+                document.body.style.transition = '';
+            });
+
+            const theme = document.body.classList.contains("dark") ? "dark" : "light";
+            localStorage.setItem("theme", theme);
+
+            // Update toggle icon
+            document.querySelector('.toggle').textContent = theme === "dark" ? "☀️" : "🌙";
+        }
+
+        // Initialize theme
+        if (localStorage.getItem("theme") === "dark") {
+            document.body.classList.add("dark");
+            document.querySelector('.toggle').textContent = "☀️";
+        }
+
+        /* Enhanced SPA routing */
+        function go(path) {
+            history.pushState(null, null, path);
+            router(path);
+        }
+
+        function router(path) {
+            // Remove active from all pages
+            document.querySelectorAll(".page").forEach(p => {
+                p.classList.remove("active");
+            });
+
+            // Remove active from nav links
+            document.querySelectorAll("nav a").forEach(a => {
+                a.classList.remove("active");
+            });
+
+            // Activate appropriate page and nav link
+            if (path === "/about") {
+                document.getElementById("about").classList.add("active");
+                document.querySelector('a[href="/about"]').classList.add("active");
+            }
+            else if (path === "/projects") {
+                document.getElementById("projects").classList.add("active");
+                document.querySelector('a[href="/projects"]').classList.add("active");
+            }
+            else if (path.startsWith("/post")) {
+                document.getElementById("articlePage").classList.add("active");
+                document.querySelector('a[href="/projects"]').classList.add("active");
+            }
+            else {
+                document.getElementById("home").classList.add("active");
+                document.querySelector('a[href="/"]').classList.add("active");
+            }
+
+            window.scrollTo(0, 0);
+            targetY = 0;
+            scrollY = 0;
+            updateBodyHeight();
+        }
+
+        // Setup navigation
+        document.querySelectorAll("[data-link]").forEach(link => {
+            link.addEventListener("click", e => {
+                e.preventDefault();
+                go(link.getAttribute("href"));
+            });
+        });
+
+        window.addEventListener("popstate", () => router(location.pathname));
+
+        /* Blog data */
+        const posts = [
+            {
+                title: "WebGL 实践",
+                tags: ["WebGL", "Graphics"],
+                content: `# WebGL 实践
+
+使用 GPU 构建高性能动画系统。
+
+## 核心优势
+
+- 性能极高，充分利用 GPU 加速
+- 可扩展架构，支持复杂场景
+- 跨平台兼容性好
+
+## 技术要点
+
+\`\`\`js
+const canvas = document.getElementById('canvas');
+const gl = canvas.getContext('webgl');
+console.log("WebGL initialized");
+\`\`\`
+
+通过精心设计的渲染管线，可以实现流畅的 60fps 动画效果。`
+            },
+            {
+                title: "前端架构设计",
+                tags: ["Frontend", "Architecture"],
+                content: `# 前端架构设计
+
+构建可维护、可扩展的现代前端系统。
+
+## 设计原则
+
+- 模块化设计
+- 组件复用
+- 性能优先
+
+## 示例代码
+
+\`\`\`js
+// 优雅的状态管理
+const state = {
+  data: [],
+  loading: false
 };
-postList.appendChild(div);
-});
+
+function update(newData){
+  state.data = newData;
+  render();
 }
 
-/* 标签 */
-const allTags=[...new Set(posts.flatMap(p=>p.tags))];
-allTags.forEach(tag=>{
-const span=document.createElement("span");
-span.className="tag";
-span.innerText=tag;
-span.onclick=()=>renderPosts(tag);
-tagContainer.appendChild(span);
-});
+console.log("架构初始化完成");
+\`\`\`
 
-/* 搜索 */
-function searchPosts(value){renderPosts(null,value);}
-renderPosts();
-</script>
+良好的架构能够显著提升开发效率和代码质量。`
+            },
+            {
+                title: "自建书签导航系统",
+                tags: ["Tools", "Frontend"],
+                content: `# 书签导航系统
+
+创建个人收藏站，实现快速访问和智能管理。
+
+## 功能特性
+
+- 分类管理
+- 快速搜索
+- 云端同步
+- 美观界面
+
+打造属于自己的效率工具，提升日常工作流程。`
+            }
+        ];
+
+        /* Enhanced post rendering with staggered animation */
+        const postList = document.getElementById("postList");
+        const tagContainer = document.getElementById("tagContainer");
+        let activeTag = null;
+
+        function renderPosts(filterTag = null, search = "") {
+            postList.innerHTML = "";
+            activeTag = filterTag;
+
+            const filtered = posts.filter(p =>
+                (!filterTag || p.tags.includes(filterTag)) &&
+                p.title.toLowerCase().includes(search.toLowerCase())
+            );
+
+            filtered.forEach((p, i) => {
+                const div = document.createElement("div");
+                div.className = "card";
+                div.style.animationDelay = `${i * 0.1}s`;
+                div.innerHTML = `
+      <h3>${p.title}</h3>
+      <p>${p.tags.join(" · ")}</p>
+    `;
+
+                // Mouse tracking for glow effect
+                div.addEventListener('mousemove', (e) => {
+                    const rect = div.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    div.style.setProperty('--mouse-x', `${x}%`);
+                    div.style.setProperty('--mouse-y', `${y}%`);
+                });
+
+                div.onclick = () => {
+                    document.getElementById("articleTitle").innerText = p.title;
+                    document.getElementById("articleContent").innerHTML = marked.parse(p.content);
+                    go("/post/" + posts.indexOf(p));
+                    setTimeout(() => Prism.highlightAll(), 100);
+                };
+
+                postList.appendChild(div);
+            });
+
+            // Update body height after rendering
+            setTimeout(updateBodyHeight, 100);
+        }
+
+        /* Enhanced tags */
+        const allTags = [...new Set(posts.flatMap(p => p.tags))];
+        allTags.forEach(tag => {
+            const span = document.createElement("span");
+            span.className = "tag";
+            span.innerText = tag;
+            span.onclick = () => {
+                document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+                if (activeTag === tag) {
+                    renderPosts(null);
+                    activeTag = null;
+                } else {
+                    span.classList.add('active');
+                    renderPosts(tag);
+                }
+            };
+            tagContainer.appendChild(span);
+        });
+
+        /* Search with debounce */
+        let searchTimeout;
+        function searchPosts(value) {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                renderPosts(activeTag, value);
+            }, 300);
+        }
+
+        // Initial render
+        renderPosts();
+
+        // Update height on resize
+        window.addEventListener('resize', updateBodyHeight);
+    </script>
 
 </body>
+
 </html>
