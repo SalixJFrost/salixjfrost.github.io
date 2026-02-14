@@ -1329,6 +1329,38 @@ body.dark .article pre {
     min-width: 200px;
   }
 }
+
+/* ========================================
+   ANIMATED EMOJI - Mouse Following
+   ======================================== */
+.animated-emoji {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  font-size: 1em;
+}
+
+.animated-emoji.follow {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  font-size: 2em;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  animation: swing 0.6s ease-in-out infinite;
+  transition: none;
+}
+
+@keyframes swing {
+  0%, 100% {
+    transform: rotateZ(0deg);
+  }
+  25% {
+    transform: rotateZ(-15deg);
+  }
+  75% {
+    transform: rotateZ(15deg);
+  }
+}
 </style>
 </head>
 
@@ -1389,7 +1421,7 @@ body.dark .article pre {
           <span id="typingText" class="typing-text"></span>
         </span>
       </h1>
-      <p>Minimal · Development · Security</p>
+      <p>Say my <span class="animated-emoji" id="heroEmoji">✨</span> name.</p>
       <div class="hero-cta">
         <a href="/blog/" class="cta-button primary">Explore Articles</a>
         <a href="/about/" class="cta-button secondary">Learn More</a>
@@ -1442,6 +1474,51 @@ body.dark .article pre {
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 
 <script>
+// ========================================
+// EMOJI MOUSE TRACKING
+// ========================================
+const heroEmoji = document.getElementById('heroEmoji');
+let emojiOffsetX = 0;
+let emojiOffsetY = 0;
+let emojiMouseX = 0;
+let emojiMouseY = 0;
+
+// Track mouse position and update emoji follow state
+document.addEventListener('mousemove', (e) => {
+  emojiMouseX = e.clientX;
+  emojiMouseY = e.clientY;
+
+  // Add follow class on first move
+  if (!heroEmoji.classList.contains('follow')) {
+    heroEmoji.classList.add('follow');
+  }
+
+  // Smooth interpolation (easing factor 0.15)
+  emojiOffsetX += (emojiMouseX - emojiOffsetX) * 0.15;
+  emojiOffsetY += (emojiMouseY - emojiOffsetY) * 0.15;
+
+  // Update position
+  heroEmoji.style.left = emojiOffsetX + 'px';
+  heroEmoji.style.top = emojiOffsetY + 'px';
+});
+
+// Track touch for mobile devices
+document.addEventListener('touchmove', (e) => {
+  const touch = e.touches[0];
+  emojiMouseX = touch.clientX;
+  emojiMouseY = touch.clientY;
+
+  if (!heroEmoji.classList.contains('follow')) {
+    heroEmoji.classList.add('follow');
+  }
+
+  emojiOffsetX += (emojiMouseX - emojiOffsetX) * 0.15;
+  emojiOffsetY += (emojiMouseY - emojiOffsetY) * 0.15;
+
+  heroEmoji.style.left = emojiOffsetX + 'px';
+  heroEmoji.style.top = emojiOffsetY + 'px';
+}, { passive: true });
+
 // ========================================
 // Performance-Optimized Smooth Scrolling
 // ========================================
