@@ -2,7 +2,7 @@
 
 body {
   margin: 0;
-  background-color: #F5F5DC;
+  background-color: #000000;
 }
 
 div {
@@ -17,7 +17,7 @@ div {
 
 p {
   font-size: 4rem;
-  color: red;
+  color: #ffffff;
   line-height: 3.4rem;
 }
 
@@ -82,18 +82,18 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
-  color: #333;
+  color: #ffffff;
   text-decoration: none;
   transition: all 0.3s ease;
   z-index: 1000;
 }
 
 .github-link:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.2);
   transform: scale(1.1);
-  color: #000;
+  color: #ffffff;
 }
 
 .github-link svg {
