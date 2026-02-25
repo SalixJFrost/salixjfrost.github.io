@@ -1,116 +1,78 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cedarville+Cursive&family=Indie+Flower&family=Nothing+You+Could+Do&family=Oooh+Baby&family=Reenie+Beanie&family=Shadows+Into+Light&display=swap');
-
 body {
-  margin: 0;
-  background-color: #000000;
+  background: rgb(43,78,104);
+  color: rgb(220,220,220);
+  font-family: 'Fira Code', monospace;
 }
-
-div {
-  padding: 0rem 5rem;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-items: center;
-  max-width: 900px;
-  min-height: 100vh;
-}
-
-p {
-  font-size: 4rem;
-  color: #ffffff;
-  line-height: 3.4rem;
-}
-
-@media only screen and (max-width: 800px) {
-  p {
-    font-size: 3rem;
-    line-height: 2.55rem;
-  }
-}
-
-.caveat {
-  font-family: "Caveat", cursive;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.shadows-into-light {
-  font-family: "Shadows Into Light", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.indie-flower {
-  font-family: "Indie Flower", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.nothing-you-could-do {
-  font-family: "Nothing You Could Do", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.oooh-baby {
-  font-family: "Oooh Baby", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-
-.reenie-beanie {
-  font-family: "Reenie Beanie", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.cedarville-cursive {
-  font-family: "Cedarville Cursive", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-/* GitHub Link */
-.github-link {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  color: #ffffff;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  z-index: 1000;
-}
-
-.github-link:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  transform: scale(1.1);
-  color: #ffffff;
-}
-
-.github-link svg {
-  width: 24px;
-  height: 24px;
-}
-
-@media only screen and (max-width: 800px) {
-  .github-link {
-    width: 36px;
-    height: 36px;
-    bottom: 16px;
-    right: 16px;
-  }
   
-  .github-link svg {
-    width: 20px;
-    height: 20px;
+.typewriter {
+  position: absolute;
+  top: 35%;
+  left: 10%;
+}
+
+.typewriter h1 {
+  border-right: 1px solid white;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 390px;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typewriter 2s steps(25) 1s 1 normal both;
+}
+
+.typewriter #line-1 {
+  border-right: 1px solid white;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 425px;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typewriter 3s steps(40) 1s 1 normal both;
+  animation-delay: 3.5s;
+}
+
+#line-2 {
+  border-right: 1px solid white;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 405px;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typewriter 3s steps(40) 1s 1 normal both;
+  animation-delay: 7s;
+}
+
+@keyframes typewriter {
+  0% {
+    width: 0;
+    border-right: none;
   }
+  0.1% {
+    border-right: 1px solid rgb(220,220,220);
+  }
+  99.9% {
+    border-right: 1px solid rgb(220,220,220);
+  }
+  100% {
+    border: none;
+  }
+}
+
+i {
+opacity: 0;
+animation: fadeIn 2s ease-in-out;
+animation-delay: 10s;
+animation-fill-mode: forwards;
+padding-top: 1rem;
+padding-left: 20px;
+
+}
+
+a {
+  color: rgb(220,220,220);
+}
+
+@keyframes fadeIn {
+from {opacity:0;}
+to {opacity:1;}
 }
