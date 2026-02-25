@@ -2,7 +2,7 @@
 
 body {
   margin: 0;
-  background-color: #FFFDF3;
+  background-color: #F5F5DC;
 }
 
 div {
@@ -59,7 +59,6 @@ p {
   font-style: normal;
 }
 
-
 .reenie-beanie {
   font-family: "Reenie Beanie", cursive;
   font-weight: 400;
@@ -70,4 +69,47 @@ p {
   font-family: "Cedarville Cursive", cursive;
   font-weight: 400;
   font-style: normal;
+}
+
+/* GitHub Link */
+.github-link {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.github-link:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+  color: #000;
+}
+
+.github-link svg {
+  width: 24px;
+  height: 24px;
+}
+
+@media only screen and (max-width: 800px) {
+  .github-link {
+    width: 36px;
+    height: 36px;
+    bottom: 16px;
+    right: 16px;
+  }
+  
+  .github-link svg {
+    width: 20px;
+    height: 20px;
+  }
 }
